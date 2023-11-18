@@ -31,33 +31,39 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     
     let statusBarMenu = NSMenu(title: "Status Bar Menu")
     statusBarItem.menu = statusBarMenu
+    let popoverHeight = 400;
+    let popoverWidth = 400;
     
+
     let popoverVC = NSViewController()
-    popoverVC.view = NSView(frame: NSRect(x: 0, y: 0, width: 200, height: 400))
+    popoverVC.view = NSView(frame: NSRect(x: 0, y: 0, width: popoverWidth, height: popoverHeight))
     
-    openAIKeyTextField = NSSecureTextField(frame: NSRect(x: 20, y: 240, width: 160, height: 20))
-    
-    
-    openAIKeyTextField.placeholderString = "Enter OpenAI Key";
+    let openAIKeyLabel = NSTextField(labelWithString: "OpenAI Secret key")
+    openAIKeyLabel.frame = NSRect(x: 20, y: popoverHeight - 40, width: popoverWidth, height: 16)
+    popoverVC.view.addSubview(openAIKeyLabel)
+
+    openAIKeyTextField = NSSecureTextField(frame: NSRect(x: 20, y: popoverHeight - 65, width: popoverWidth - 40, height: 20))
+    openAIKeyTextField.placeholderString = "Enter OpenAI Secret";
     let savedOpenAIKey = UserDefaults.standard.string(forKey: "OpenAIKey") ?? ""
     openAIKeyTextField.stringValue = savedOpenAIKey
     openAIKeyTextField.delegate = self
-    
-    
     popoverVC.view.addSubview(openAIKeyTextField)
     
-    promptTextField = NSTextField(frame: NSRect(x: 20, y: 20, width: 160, height: 200))
+    let promptTexTLabel = NSTextField(labelWithString: "Prompt")
+    promptTexTLabel.frame = NSRect(x: 20, y: popoverHeight - 100, width: popoverWidth, height: 16)
+    popoverVC.view.addSubview(promptTexTLabel)
+
     
+    promptTextField = NSTextField(frame: NSRect(x: 20, y: popoverHeight - 305, width: popoverWidth - 40, height: 200))
     promptTextField.placeholderString = "Enter custom prompt";
     let savedPrompt = UserDefaults.standard.string(forKey: "SavedPrompt") ?? "You are a tailwind css expert and an amazing html/css developer who tries to absolutely match the code with the designs. This is an image of a UI component design. Make sure you try to match the design as shown in the image using tailwind css. Replace images and icons in the component with rounded box or rectangles. Please provide output as plain valid HTML only without using backticks or labeling it as HTML or any extra text or any description."
     promptTextField.stringValue = savedPrompt
     promptTextField.delegate = self
-    
     popoverVC.view.addSubview(promptTextField)
     
     
     popover = NSPopover()
-    popover.contentSize = NSSize(width: 200, height: 300)
+    popover.contentSize = NSSize(width: popoverWidth, height: popoverHeight)
     popover.behavior = .transient
     popover.contentViewController = popoverVC
     
@@ -332,7 +338,6 @@ class SelectionView: NSView {
   override init(frame frameRect: NSRect) {
     captureButton = NSButton(frame: .zero)
     cancelButton = NSButton(frame: .zero)
-    
     super.init(frame: frameRect)
     configureButton(captureButton, title: "Capture", action: #selector(captureAction))
     configureButton(cancelButton, title: "Cancel", action: #selector(cancelAction))
