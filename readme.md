@@ -2,7 +2,7 @@
 ## Codesnap
 macOS menubar app to generate component code from screenshots.
 
-<img src="https://github.com/intergalacticspacehighway/codesnap/assets/23293248/ea97f1af-4681-4080-b9db-66acb71d8316" width="300" height="300" alt="codesnap logo">
+![playstore](https://github.com/intergalacticspacehighway/codesnap/assets/23293248/51197da7-a21b-45be-b910-970238896b62)
 
 
 
@@ -14,12 +14,17 @@ macOS menubar app to generate component code from screenshots.
 - Paste the secret key in the app's setting as shown below.
 
 -----
-https://github.com/intergalacticspacehighway/codesnap/assets/23293248/ba26644f-db29-4b83-816c-86f908794256
 
+
+
+
+https://github.com/intergalacticspacehighway/codesnap/assets/23293248/6fa3baa4-43e1-491c-bc43-123b0a1c5aa7
 
 
 
 - Enjoy codesnapping
 
+
 -----
-https://github.com/intergalacticspacehighway/codesnap/assets/23293248/61974e1e-4213-41a6-9bbe-b53e140459a7
+https://github.com/intergalacticspacehighway/codesnap/assets/23293248/b3485db7-f20c-49d8-a1a9-e4a06b9060cf
+
