@@ -316,6 +316,10 @@ class SelectionView: NSView {
     button.target = self
     button.action = action
     button.bezelStyle = .rounded
+    button.font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
+    button.isBordered = false
+    button.wantsLayer = true
+    button.layer?.backgroundColor = NSColor.systemGray.cgColor
   }
   
   @objc private func captureAction() {
