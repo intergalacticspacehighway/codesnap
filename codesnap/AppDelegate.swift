@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import SwiftUI
 
 enum DragHandle {
   case topLeft, topRight, bottomLeft, bottomRight, none
@@ -15,9 +16,7 @@ enum DragHandle {
 class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
   
   var statusBarItem: NSStatusItem!
-  var openAIKeyTextField: NSTextField!;
-  var promptTextField: NSTextField!;
-  
+  var settingsViewModal = SettingsViewModel()
   var overlayWindow: NSWindow!
   var selectionView: SelectionView!
   var toastWindow: NSWindow!
@@ -26,7 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     
-//    statusBarItem.button?.title = "CodeSnap"
+    //    statusBarItem.button?.title = "CodeSnap"
     statusBarItem.button?.image = NSImage(named: "menubaricon");
     
     let statusBarMenu = NSMenu(title: "Status Bar Menu")
@@ -34,38 +33,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     let popoverHeight = 400;
     let popoverWidth = 400;
     
-
-    let popoverVC = NSViewController()
-    popoverVC.view = NSView(frame: NSRect(x: 0, y: 0, width: popoverWidth, height: popoverHeight))
-    
-    let openAIKeyLabel = NSTextField(labelWithString: "OpenAI Secret key")
-    openAIKeyLabel.frame = NSRect(x: 20, y: popoverHeight - 40, width: popoverWidth, height: 16)
-    popoverVC.view.addSubview(openAIKeyLabel)
-
-    openAIKeyTextField = NSSecureTextField(frame: NSRect(x: 20, y: popoverHeight - 65, width: popoverWidth - 40, height: 20))
-    openAIKeyTextField.placeholderString = "Enter OpenAI Secret";
-    let savedOpenAIKey = UserDefaults.standard.string(forKey: "OpenAIKey") ?? ""
-    openAIKeyTextField.stringValue = savedOpenAIKey
-    openAIKeyTextField.delegate = self
-    popoverVC.view.addSubview(openAIKeyTextField)
-    
-    let promptTexTLabel = NSTextField(labelWithString: "Prompt")
-    promptTexTLabel.frame = NSRect(x: 20, y: popoverHeight - 100, width: popoverWidth, height: 16)
-    popoverVC.view.addSubview(promptTexTLabel)
-
-    
-    promptTextField = NSTextField(frame: NSRect(x: 20, y: popoverHeight - 305, width: popoverWidth - 40, height: 200))
-    promptTextField.placeholderString = "Enter custom prompt";
-    let savedPrompt = UserDefaults.standard.string(forKey: "SavedPrompt") ?? "You are a tailwind css expert and an amazing html/css developer who tries to absolutely match the code with the designs. This is an image of a UI component design. Make sure you try to match the design as shown in the image using tailwind css. Replace images and icons in the component with rounded box or rectangles. Please provide output as plain valid HTML only without using backticks or labeling it as HTML or any extra text or any description."
-    promptTextField.stringValue = savedPrompt
-    promptTextField.delegate = self
-    popoverVC.view.addSubview(promptTextField)
-    
-    
     popover = NSPopover()
     popover.contentSize = NSSize(width: popoverWidth, height: popoverHeight)
     popover.behavior = .transient
-    popover.contentViewController = popoverVC
+    
+    let settingsView = SettingsView(viewModel: settingsViewModal)
+    let hostingController = NSHostingController(rootView: settingsView)
+    
+    
+    popover.contentViewController = hostingController
     
     statusBarMenu.addItem(
       withTitle: "Selection",
@@ -93,23 +69,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     
   }
   
-  
-  
-  func controlTextDidChange(_ obj: Notification) {
-    
-    if let textField = obj.object as? NSTextField, textField == openAIKeyTextField {
-      print("openAIKeyTextField text changed")
-      let textValue = textField.stringValue
-      UserDefaults.standard.set(textValue, forKey: "OpenAIKey")
-      
-      
-    } else if let textField = obj.object as? NSTextField, textField == promptTextField {
-      
-      let textValue = textField.stringValue
-      UserDefaults.standard.set(textValue, forKey: "SavedPrompt")
-      
-    }
-  }
   
   @objc func showOpenAIKeyPopover(_ sender: AnyObject?) {
     if let button = statusBarItem.button {
@@ -148,7 +107,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     selectionView = SelectionView(frame: screenRect)
     selectionView.onSelectionCompleted =  { base64Image in
       self.overlayWindow.orderOut(nil)
-      let openAIKey = self.openAIKeyTextField.stringValue;
+      let openAIKey = self.settingsViewModal.openAIKey;
       self.sendImageToOpenAI(base64Image: base64Image, openApiKey: openAIKey) { result in
         switch result {
         case .success(let data):
@@ -222,7 +181,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTextFieldDelegate {
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.setValue("Bearer \(openApiKey)", forHTTPHeaderField: "Authorization")
-    let prompt = promptTextField.stringValue
+    let prompt = self.settingsViewModal.prompt
     
     // Construct the request body
     let requestBody: [String: Any] = [

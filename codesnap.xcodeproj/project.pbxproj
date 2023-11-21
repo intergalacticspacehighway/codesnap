@@ -10,6 +10,7 @@
 		C030933F2B07F88E009805D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C030933E2B07F88E009805D8 /* AppDelegate.swift */; };
 		C03093432B07F88F009805D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C03093422B07F88F009805D8 /* Assets.xcassets */; };
 		C03093462B07F88F009805D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C03093442B07F88F009805D8 /* Main.storyboard */; };
+		C0994BEF2B0B7D720074A3AB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0994BEE2B0B7D720074A3AB /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,7 @@
 		C03093422B07F88F009805D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C03093452B07F88F009805D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C03093472B07F88F009805D8 /* codesnap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = codesnap.entitlements; sourceTree = "<group>"; };
+		C0994BEE2B0B7D720074A3AB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 				C03093422B07F88F009805D8 /* Assets.xcassets */,
 				C03093442B07F88F009805D8 /* Main.storyboard */,
 				C03093472B07F88F009805D8 /* codesnap.entitlements */,
+				C0994BEE2B0B7D720074A3AB /* SettingsView.swift */,
 			);
 			path = codesnap;
 			sourceTree = "<group>";
@@ -129,6 +132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C030933F2B07F88E009805D8 /* AppDelegate.swift in Sources */,
+				C0994BEF2B0B7D720074A3AB /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
